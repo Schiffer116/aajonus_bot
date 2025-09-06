@@ -1,0 +1,9 @@
+beautifulsoup4
+requests
+tqdm
+langchain-text-splitters
+langchain-community
+langgraph
+langchain-ollama
+faiss-cpu
+sentence-transformers
