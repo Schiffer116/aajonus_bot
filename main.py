@@ -1,40 +1,15 @@
-import pickle
-
-import faiss
-from langchain_community.docstore.in_memory import InMemoryDocstore
-from langchain_community.vectorstores import FAISS
 from langchain import hub
 from langchain_core.documents import Document
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langgraph.graph import START, StateGraph
 from typing_extensions import List, TypedDict
 
-from langchain_ollama import OllamaLLM, OllamaEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_ollama import OllamaLLM
+
+from scripts.embed import load_store
 
 print("Loading components...")
 llm = OllamaLLM(model="gemma3:1b")
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
-
-index = faiss.IndexFlatL2(len(embeddings.embed_query("hello world")))
-
-vector_store = FAISS(
-    embedding_function=embeddings,
-    index=index,
-    docstore=InMemoryDocstore(),
-    index_to_docstore_id={},
-)
-
-CACHE_FILE = "docs.pkl"
-
-with open(CACHE_FILE, "rb") as f:
-    print("Loading from cache...")
-    docs = pickle.load(f)
-    print("Splitting...")
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=200)
-    all_splits = text_splitter.split_documents(docs)
-    print("Adding to vector store...")
-    _ = vector_store.add_documents(documents=all_splits[:1000])
+vector_store = load_store()
 
 print("Pulling prompt...")
 prompt = hub.pull("rlm/rag-prompt")
