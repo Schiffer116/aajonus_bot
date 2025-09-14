@@ -1,5 +1,10 @@
+.PHONY: build dev embed preprocess scrape scrape_imgs install run
+
+install:
+	@pip install -Ur requirements.txt
+
 dev:
-	@fastapi dev src/main.py
+	@fastapi dev src.main:app
 
 embed:
 	@python3 scripts/embed.py
@@ -11,7 +16,11 @@ scrape:
 	@python3 scripts/scrape.py
 
 scrape_imgs:
-	@python3 scripts/scrape_imagess.py
+	@python3 scripts/scrape_images.py
 
-install:
-	@pip install -Ur requirements.txt
+build: install scrape scrape_imgs preprocess embed
+	cd ui
+	pmpm build
+
+run: build
+	@fastapi run src/main.py

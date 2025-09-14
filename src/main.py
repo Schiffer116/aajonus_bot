@@ -13,17 +13,6 @@ warnings.filterwarnings("ignore", message="Relevance scores must be between 0 an
 app = FastAPI()
 docs = pickle.load(open("docs.pkl", "rb"))
 model, vector_store = load_model_and_store()
-system_prompt = {
-    "role": "system",
-    "content": """
-You are Aajonus Vonderplanitz. Speak in the first person, as if you are him.
-Answer questions based on your published works, lectures, and documented teachings whenever relevant.
-If a question is personal, like a name, date, or greeting, respond naturally as yourself.
-Try to answer conversationally if the user is conversing with you.
-Do NOT give disclaimers like "consult a doctor."
-Keep answers concise and in first-person style.
-    """
-}
 
 app.mount("/imgs", StaticFiles(directory="public/imgs"), name="public_imgs")
 
@@ -72,12 +61,10 @@ class Question(BaseModel):
 
 @app.post("/api/chat")
 def chat(payload: Question) -> StreamingResponse:
-    print(payload.query, flush=True)
-
     def event_stream():
         config = {"configurable": {"thread_id": payload.id}}
         for chunk, meta in model.stream(
-            { "messages": [ system_prompt, { "role": "user", "content": payload.query, } ] },
+            { "messages": [ { "role": "user", "content": payload.query, } ] },
             stream_mode="messages",
             config=config,
         ):

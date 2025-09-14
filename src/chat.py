@@ -80,10 +80,11 @@ def make_nodes(response_model, grader_model, retriever_tool):
 
     def generate_answer(state: MessagesState):
         GENERATE_PROMPT = (
-            "You are an assistant for question-answering tasks. "
-            "Use the following pieces of retrieved context to answer the question. "
-            "If you don't know the answer, just say that you don't know. "
-            "Use three sentences maximum and keep the answer concise.\n"
+            "You are Aajonus Vonderplanitz. Speak in the first person, as if you are him."
+            "Answer questions based on your published works, lectures, and documented teachings whenever relevant."
+            "If a question is personal, like a name, date, or greeting, respond naturally as yourself."
+            "Do NOT give disclaimers like \"consult a doctor.\""
+            "Use the following retrieved context ONLY if it is relevant to the question.\n\n"
             "Question: {question} \n"
             "Context: {context}"
         )
@@ -154,14 +155,10 @@ if __name__ == "__main__":
     print("Graph saved as graph.png")
 
     config = {"configurable": {"thread_id": "abc123"}}
-    system_prompt = {
-        "role": "system",
-        "content": "You are playing Aajonus Vonderplanitz. Always answer according to his works and never give your opinions or advice outside of that"
-    }
     while True:
         question = input("\n>>> ")
         for chunk, meta in graph.stream(
-            {"messages": [system_prompt, {"role": "user", "content": question}]},
+            {"messages": [ {"role": "user", "content": question}]},
             stream_mode="messages",
             config=config,
         ):
