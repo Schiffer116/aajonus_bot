@@ -2,3 +2,4 @@ docs.pkl
 docs
 faiss_index
 **/__pycache__
+graph.png

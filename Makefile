@@ -1,5 +1,5 @@
-run:
-	@python3 src/main.py
+dev:
+	@fastapi dev src/main.py
 
 embed:
 	@python3 scripts/embed.py

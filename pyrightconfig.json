@@ -5,5 +5,7 @@
   "reportUnknownArgumentType": false,
   "reportAttributeAccessIssue": false,
   "reportOptionalMemberAccess": false,
-  "reportUnknownVariableType": false
+  "reportUnknownVariableType": false,
+  "reportArgumentType": false,
+  "reportUnknownParameterType": false
 }
