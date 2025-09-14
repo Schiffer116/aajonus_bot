@@ -1,2 +1,4 @@
 docs.pkl
-embeddings.pkl
+docs
+faiss_index
+**/__pycache__

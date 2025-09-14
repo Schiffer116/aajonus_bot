@@ -5,5 +5,8 @@ langchain-text-splitters
 langchain-community
 langgraph
 langchain-ollama
+langchain-huggingface
 faiss-cpu
 sentence-transformers
+fastapi[standard]
+aiofiles

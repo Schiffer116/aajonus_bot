@@ -1,40 +1,27 @@
 import pickle
-import os
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
 
 DOCS_CACHE = "docs.pkl"
-STORE_CACHE = "faiss_store.pkl"
+STORE_CACHE = "faiss_index"
 
-def build_store():
-    with open(DOCS_CACHE, "rb") as f:
-        docs = pickle.load(f)
+with open(DOCS_CACHE, "rb") as f:
+    docs = pickle.load(f)
 
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=200,
-        )
-        all_splits = text_splitter.split_documents(docs)
-        embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
-        vector_store = FAISS.from_documents(all_splits, embeddings)
+    text_splitter = RecursiveCharacterTextSplitter(
+        separators=["\n", ".", "!", "?"],
+        keep_separator='end',
+        chunk_size=500,
+        chunk_overlap=100,
+    )
 
-        with open(STORE_CACHE, "wb") as f:
-            pickle.dump(vector_store, f)
+    all_splits = text_splitter.split_documents(docs)
+    embeddings = HuggingFaceEmbeddings(
+        model_name="all-MiniLM-L6-v2",
+        show_progress=True,
+    )
 
-        print(f"✅ Cached FAISS store with {len(all_splits)} chunks at {STORE_CACHE}")
-        return vector_store
-
-
-def load_store():
-    if os.path.exists(STORE_CACHE):
-        with open(STORE_CACHE, "rb") as f:
-            vector_store = pickle.load(f)
-        print(f"✅ Loaded FAISS store from {STORE_CACHE}")
-        return vector_store
-    else:
-        return build_store()
-
-if __name__ == "__main__":
-    store = load_store()
+    vector_store = FAISS.from_documents(all_splits, embeddings)
+    vector_store.save_local(STORE_CACHE)
