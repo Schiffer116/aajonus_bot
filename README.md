@@ -1,9 +1,9 @@
 # 🥩 Aajonus Bot
 
+AI chatbot simulating **Aajonus Vonderplanitz**, creator of the Primal Diet. Combines **semantic search** with real-time token streaming to answer questions directly from his works.
 ![browse page](browse.png "searching articles")
 ![document page](document.png "reading document")
 ![chat page](chat.png "chatting")
-AI chatbot simulating **Aajonus Vonderplanitz**, creator of the Primal Diet. Combines **semantic search** with real-time token streaming to answer questions directly from his works.
 
 ## Features
 
@@ -20,6 +20,9 @@ make run
 ```
 
 Open `http://localhost:8000` and start chatting.
+
+## Agent workflow
+![agent graph](graph.png "agent workflow")
 
 ## Tech Stack
 
