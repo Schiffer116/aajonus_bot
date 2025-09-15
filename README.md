@@ -12,11 +12,10 @@ AI chatbot simulating **Aajonus Vonderplanitz**, creator of the Primal Diet. Com
 ```bash
 git clone https://github.com/Schiffer116/aajonus_bot.git
 cd aajonus_bot
-pip install -r requirements.txt
-python app.py
+make run
 ```
 
-Open `http://localhost:5000` and start chatting.
+Open `http://localhost:8000` and start chatting.
 
 ## Tech Stack
 

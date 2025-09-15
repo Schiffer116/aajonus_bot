@@ -22,4 +22,4 @@ build: install scrape scrape_imgs preprocess embed
 	cd ui && pnpm install && pnpm build
 
 run: build
-	@fastapi run src/main.py --host 0.0.0.0 --port 8001
+	@fastapi run src/main.py --host 0.0.0.0 --port 8000
