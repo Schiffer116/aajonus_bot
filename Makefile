@@ -19,8 +19,7 @@ scrape_imgs:
 	@python3 scripts/scrape_images.py
 
 build: install scrape scrape_imgs preprocess embed
-	cd ui
-	pmpm build
+	cd ui && pnpm build
 
 run: build
-	@fastapi run src/main.py
+	@fastapi run src/main.py --host 0.0.0.0 --port 8001

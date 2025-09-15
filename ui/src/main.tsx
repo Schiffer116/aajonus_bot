@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
     element: <Home />,
     errorElement: <Error />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="browse" replace />,
+      },
       {
         path: "browse",
         loader: browseLoader(queryClient),

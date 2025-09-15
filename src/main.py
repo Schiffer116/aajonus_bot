@@ -1,7 +1,8 @@
+from pathlib import Path
 import pickle
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from starlette.responses import StreamingResponse
+from starlette.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
 from chat import load_model_and_store
@@ -14,7 +15,12 @@ app = FastAPI()
 docs = pickle.load(open("docs.pkl", "rb"))
 model, vector_store = load_model_and_store()
 
-app.mount("/imgs", StaticFiles(directory="public/imgs"), name="public_imgs")
+public_path = Path(__file__).parent.parent / "public"
+
+
+app.mount("/assets", StaticFiles(directory=public_path / "assets"), name="assets")
+app.mount("/imgs", StaticFiles(directory=public_path / "imgs"), name="imgs")
+
 
 @app.get("/api/documents")
 def get_articles(query: str | None = None) -> list[dict[str, str | int]]:
@@ -72,3 +78,7 @@ def chat(payload: Question) -> StreamingResponse:
                 yield chunk.content
 
     return StreamingResponse(event_stream(), media_type="text/plain")
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    return FileResponse(public_path / "index.html")

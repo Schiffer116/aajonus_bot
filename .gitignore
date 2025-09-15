@@ -3,4 +3,4 @@ docs
 faiss_index
 **/__pycache__
 graph.png
-public/imgs
+public/*

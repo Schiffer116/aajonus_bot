@@ -20,4 +20,4 @@ Open `http://localhost:5000` and start chatting.
 
 ## Tech Stack
 
-Python, FAISS, HuggingFace embeddings, LangChain, LangGraph, React.
+Python, FastAPI, FAISS, HuggingFace embeddings, LangChain, LangGraph, React.

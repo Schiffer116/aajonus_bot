@@ -117,7 +117,7 @@ export default function Browse() {
 
           <div className="space-y-4">
             <div className="text-muted-foreground text-sm">
-              {searchQuery !== "" && filteredDocuments.length + " results"}
+              {searchParams.get("query") && filteredDocuments.length + " results"}
             </div>
 
             {filteredDocuments.map((doc, idx) => (
